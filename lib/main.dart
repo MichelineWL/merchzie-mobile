@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:merchzie/widgets/left_drawer.dart'; // Pastikan mengimpor LeftDrawer
+import 'package:merchzie/add_product_form.dart'; // Impor halaman form produk
 
 void main() {
   runApp(const MyApp());
@@ -41,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
+      drawer: const LeftDrawer(), // Tambahkan ini agar LeftDrawer muncul
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +59,13 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () {
-                _showSnackbar(context, "Kamu telah menekan tombol Tambah Produk");
+                // Navigasi ke halaman form Tambah Produk
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddProductForm(),
+                  ),
+                );
               },
               icon: const Icon(Icons.add),
               label: const Text("Tambah Produk"),

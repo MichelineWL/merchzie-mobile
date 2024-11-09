@@ -49,3 +49,39 @@ Kelas : PBP D
    7. Manggil snackbar di tiap tombol dimana ketika onPressed dia bakal dipanggil
    8. Git add comit pull push
 
+Tugas 2 
+Nama : Micheline Wijaya Limbergh
+NPM : 2306207013
+Kelas : PBP D 
+
+1. Const pada flutter berfungsi sebagai tempat untuk membuat objek yang akan dipakai berulang kali dengan tujuan flutter 
+   tidak perlu membuat objek ketika build dilakukan. Dengan demikian, mengurangi memori dan mengefektifkan SEO.Const 
+   digunakan saat kita membuat widget yang valuenya konstan seperti teks statis, icon, dan lainnya. Jangan digunakan saat
+   widget yang dibuat dinamis seperti teks yang menampilkan counter yang akan berubah sesuai counter
+2. Column dan Row digunakan untuk layouting UI dimana elemen akan diurukan secara vertikal atau horizontal. 
+   Contoh implementasi layout column : 
+   Column(
+      children: [
+         Text("Nama Produk"),
+         TextFormField(),
+         SizedBox(height: 16),
+         ElevatedButton(onPressed: () {}, child: Text("Submit"))
+      ],
+   )
+   Contoh implementasi layout row : 
+   Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+         ElevatedButton(onPressed: () {}, child: Text("Back")),
+         ElevatedButton(onPressed: () {}, child: Text("Submit")),
+      ],
+   )
+3. Elemen input yang aku gunakan pada halaman form yang aku buat pada tugas kali ini : 
+   TextFormField untuk name, amount, dan description product
+   Yang tidak aku gunakan pada tugas ini : 
+   Checkbox, Radiobutton, Switch
+4. Cara atur theme dalam aplikasi flutter agar aplikasi yang dibuat konsisten:
+   Saya mengimplementasikan tema pada aplikasi yang saya buat dengan menggunakan ThemeData dalam Material App berwarna ungu 
+5. Cara menangani navigasi dalam aplikasi dengan banyak halaman pada flutter : 
+   Flutter menggunakan stack dimana akan ada navigator.push dan navigator,pushReplacement
+ 
