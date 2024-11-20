@@ -16,7 +16,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 "# merchzie-mobile" 
 
-Tugas 1 
+Tugas 7 
 Nama : Micheline Wijaya Limbergh
 NPM : 2306207013
 Kelas : PBP D 
@@ -49,7 +49,7 @@ Kelas : PBP D
    7. Manggil snackbar di tiap tombol dimana ketika onPressed dia bakal dipanggil
    8. Git add comit pull push
 
-Tugas 2 
+Tugas 8 
 Nama : Micheline Wijaya Limbergh
 NPM : 2306207013
 Kelas : PBP D 
@@ -85,3 +85,36 @@ Kelas : PBP D
 5. Cara menangani navigasi dalam aplikasi dengan banyak halaman pada flutter : 
    Flutter menggunakan stack dimana akan ada navigator.push dan navigator,pushReplacement
  
+
+Tugas 9 
+Nama : Micheline Wijaya Limbergh
+NPM : 2306207013
+Kelas : PBP D 
+
+1. **Model untuk Pengambilan/Pengiriman Data JSON**  
+   Membuat model untuk pengambilan atau pengiriman data JSON mempermudah pengelolaan dan validasi data. Dengan model, kita dapat memastikan bahwa data yang dikirimkan dan diterima sesuai dengan struktur yang diharapkan, mengurangi kesalahan tipe data atau field yang hilang. Tanpa model, kita bisa saja mengirim atau menerima data yang tidak sesuai, yang dapat menyebabkan error seperti format JSON yang tidak valid atau masalah deserialisasi.
+
+2. **Fungsi dari Library `http`**  
+   Library `http` digunakan untuk melakukan komunikasi antara aplikasi Flutter dan server melalui HTTP requests (GET, POST, PUT, DELETE). Pada tugas ini, `http` digunakan untuk mengirimkan data ke Django server atau mengambil data dari server. Fungsi utama `http` adalah mengelola request dan response, termasuk mengirim data dalam format JSON dan menerima data yang diterima dalam format JSON.
+
+3. **Fungsi dari `CookieRequest`**  
+   `CookieRequest` adalah class yang memudahkan manajemen request HTTP dengan cookie, biasanya untuk autentikasi dan sesi pengguna. Dengan `CookieRequest`, kita dapat menjaga sesi pengguna tetap aktif tanpa perlu mengirim ulang data login setiap kali. `CookieRequest` dibagikan ke semua komponen di aplikasi untuk memastikan bahwa autentikasi (misalnya token atau cookie sesi) tetap konsisten di seluruh aplikasi tanpa perlu mengulang proses login setiap kali.
+
+4. **Mekanisme Pengiriman Data**  
+   Pengiriman data dimulai dengan input dari pengguna di Flutter (seperti form di UI). Setelah data dimasukkan, aplikasi mengonversinya ke format JSON dan mengirimnya ke server menggunakan `http` POST request. Server kemudian memproses data tersebut, menyimpannya dalam database, dan mengirimkan response kembali. Flutter menerima response tersebut, memparsing JSON yang diterima, dan menampilkan data yang sesuai di UI.
+
+5. **Mekanisme Autentikasi (Login, Register, Logout)**  
+   Proses autentikasi dimulai dengan pengguna memasukkan data akun di Flutter (misalnya username dan password). Data ini dikirim ke server Django melalui `http` POST request. Django memverifikasi data, dan jika valid, mengirimkan token atau cookie sesi yang digunakan untuk mengidentifikasi pengguna di masa depan. Untuk login, token digunakan untuk mengautentikasi request selanjutnya. Untuk logout, token atau cookie sesi dihapus, dan pengguna diarahkan kembali ke halaman login.
+
+6. **Implementasi Checklist Step-by-Step**  
+   Berikut adalah langkah-langkah singkat untuk mengimplementasikan checklist:
+
+1. **Registrasi Akun**: Buat form registrasi di Flutter, kirim data ke Django menggunakan HTTP POST, dan tampilkan pesan sukses atau gagal.
+2. **Halaman Login**: Buat form login, kirim kredensial ke Django, dan terima token atau cookie untuk autentikasi.
+3. **Integrasi Autentikasi**: Simpan token sesi setelah login dan gunakan untuk autentikasi pada request selanjutnya.
+4. **Model Kustom di Django**: Buat model item di Django (misalnya `Product`), dengan atribut seperti name, price, dan description.
+5. **Halaman Daftar Item**: Ambil data item dari Django menggunakan HTTP GET dan tampilkan nama, harga, dan deskripsi di Flutter.
+6. **Tampilkan Informasi Item**: Gunakan widget Flutter untuk menampilkan nama, harga, dan deskripsi setiap item.
+7. **Halaman Detail Item**: Navigasi ke halaman detail saat item ditekan dan tampilkan seluruh atribut item.
+8. **Navigasi Kembali**: Tambahkan tombol untuk kembali ke halaman daftar item menggunakan `Navigator.pop()`.
+9. **Filter Item Berdasarkan Pengguna**: Hanya tampilkan item yang terkait dengan pengguna yang login menggunakan filter di server Django.

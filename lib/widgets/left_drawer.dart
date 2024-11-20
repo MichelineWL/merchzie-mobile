@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:merchzie/main.dart';
-import 'package:merchzie/add_product_form.dart';
+import 'package:merchzie/screens/add_product_form.dart';
+import 'package:merchzie/screens/list_productentry.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -58,6 +59,17 @@ class LeftDrawer extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => const AddProductForm(),
                 ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_reaction_rounded),
+            title: const Text('Daftar Mood'),
+            onTap: () {
+              // Route menu ke halaman mood
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MoodEntryPage()),
               );
             },
           ),

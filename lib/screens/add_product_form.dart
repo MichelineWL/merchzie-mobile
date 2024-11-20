@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:merchzie/widgets/left_drawer.dart'; // Pastikan mengimpor `LeftDrawer`
+import 'package:merchzie/main.dart';
+import 'package:merchzie/screens/login.dart';
+import 'package:merchzie/widgets/left_drawer.dart';
+import 'package:provider/provider.dart';
 
 class AddProductForm extends StatefulWidget {
   const AddProductForm({super.key});
@@ -16,6 +20,8 @@ class _AddProductFormState extends State<AddProductForm> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -24,7 +30,7 @@ class _AddProductFormState extends State<AddProductForm> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
       ),
-      drawer: const LeftDrawer(), // Menambahkan drawer yang sudah dibuat
+      drawer: const LeftDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -33,6 +39,7 @@ class _AddProductFormState extends State<AddProductForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                // Product Name Field
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Nama Produk',
@@ -53,6 +60,7 @@ class _AddProductFormState extends State<AddProductForm> {
                   },
                 ),
                 const SizedBox(height: 16),
+                // Product Stock Field
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Jumlah Stok Produk',
@@ -76,6 +84,7 @@ class _AddProductFormState extends State<AddProductForm> {
                   },
                 ),
                 const SizedBox(height: 16),
+                // Product Description Field
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Deskripsi Produk',
@@ -96,8 +105,7 @@ class _AddProductFormState extends State<AddProductForm> {
                   },
                 ),
                 const SizedBox(height: 16),
-
-                // Row untuk tombol Back dan Submit
+                // Buttons for Back and Submit
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -111,35 +119,39 @@ class _AddProductFormState extends State<AddProductForm> {
                       child: const Text('Back'),
                     ),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Produk berhasil ditambahkan'),
-                                content: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Produk: $_productName'),
-                                      Text('Jumlah: $_productStock'),
-                                      Text('Deskripsi: $_productDescription'),
-                                    ],
-                                  ),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      _formKey.currentState!.reset();
-                                    },
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              );
-                            },
+                          // Kirim data ke Django dan tunggu respons
+                          final response = await request.postJson(
+                            "http://127.0.0.1:8000/create-flutter/",
+                            jsonEncode(<String, dynamic>{
+                              'product_name': _productName,
+                              'product_stock': _productStock.toString(),
+                              'product_description': _productDescription,
+                            }),
                           );
+
+                          if (context.mounted) {
+                            if (response['status'] == 'success') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Produk baru berhasil ditambahkan!"),
+                                ),
+                              );
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MyHomePage(title: ''),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Terdapat kesalahan, silakan coba lagi."),
+                                ),
+                              );
+                            }
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -148,6 +160,38 @@ class _AddProductFormState extends State<AddProductForm> {
                       child: const Text('Submit'),
                     ),
                   ],
+                ),
+                // Add the Logout logic here if needed:
+                ElevatedButton(
+                  onPressed: () async {
+                    // Assuming the logout action occurs here
+                    final response = await request.logout(
+                      "http://127.0.0.1:8000/auth/logout/", // Adjust URL here
+                    );
+                    String message = response["message"];
+                    if (context.mounted) {
+                      if (response['status']) {
+                        String uname = response["username"];
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("$message Sampai jumpa, $uname."),
+                        ));
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(message),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red, // Logout button color
+                  ),
+                  child: const Text('Logout'),
                 ),
               ],
             ),
